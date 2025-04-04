@@ -1,0 +1,44 @@
+   // Źródło: https://github.com/ensonfun/leetcode-neetcode/blob/main/kotlin%2F78-Subsets.kt
+/**
+ * Funkcja Podzbiory zwraca listę wszyskich podzbiorów danego zbioru 
+ * @param tablica to zbiór wejściowy dla podzbiorów
+ * @return Lista utworznych podzbiorów 
+ */
+fun Podzbiory(tablica: IntArray): List<List<Int>> {
+    val wynik = mutableListOf<List<Int>>()             
+    val Podzbior = mutableListOf<Int>()       
+    tworzeniepodzbioru(tablica, 0, Podzbior, wynik)
+    return wynik
+}
+
+/**
+ * Funkcja tworzeniepodzbioru generuje podzbiory 
+ * @param tablica to zbiór wejściowy dla podzbiorów
+ * @param indeks elementu, od którego generowany jest podzbiór
+ * @param tworzony to aktualnie tworzony podzbiór
+ * @param wynik Lista zawierająca wszystkie podzbiory
+ */
+fun tworzeniepodzbioru(
+    tablica: IntArray,
+    indeks: Int,
+    tworzony: MutableList<Int>,
+    wynik: MutableList<List<Int>>
+) {
+  
+    wynik.add(ArrayList(tworzony))
+    for (i in indeks until tablica.size) {
+        tworzony.add(tablica[i])                                
+        tworzeniepodzbioru(tablica, i + 1, tworzony, wynik)     
+        tworzony.removeAt(tworzony.size - 1)                  
+    }
+}
+
+fun main() {
+   
+    val test1 = Podzbiory(intArrayOf(1,2,))
+    require(test1.size == 4) { "Niepoprawna ilość podzbiorów" }
+    val test2 = Podzbiory(intArrayOf())
+    require(test2[0].isEmpty()) { "Błąd pustej tablicy" }
+    val test3 = Podzbiory(intArrayOf(1))
+    require(test3.size == 2) { "Niepoprawna ilość podzbiorów" }
+}
