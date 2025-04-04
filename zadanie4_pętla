@@ -1,0 +1,45 @@
+import kotlin.test.assertFailsWith
+/**
+ * Funkcja ciąg Fibonacciego do wyznaczenia pierwszych n elementów przy użyciu pętli.
+ * @param n pożądana liczba zwracanych elementów
+ * @return lista pierwszych n elementów 
+ * @throws IllegalArgumentException gdy n jest liczbą ujemną
+ */
+fun fibonacciPetla(n: Int): List<Int> {
+    require(n >= 0) { "Wprowadź wartość dodatnią" }
+    val wynik = mutableListOf<Int>()
+    
+    // https://www.korepetycjezinformatyki.pl/ciag-fibonacciego/ algorytm ciągu fibonacciego w postaci pętli
+    if (n == 0) return wynik
+    wynik.add(0)
+    if (n == 1) return wynik
+    wynik.add(1)
+    for (i in 2 until n) {
+        val wartosc = wynik[i - 1] + wynik[i - 2]
+        wynik.add(wartosc)
+    }
+    return wynik
+}
+/**
+ * Funkcja `testFibonacciPetla` testuje funkcję fibonacciPetla
+ */
+fun testFibonacciPetla() {
+    val wynik0 = fibonacciPetla(0)
+    require(wynik0.isEmpty()) { "Ciąg fibbonacciego powinien być pusty" }
+
+    val wynik1 = fibonacciPetla(1)
+    require(wynik1 == listOf(0)) { "Zła wartość elementu ciągu Fibonacciego" }
+
+    val wynik2 = fibonacciPetla(2)
+    require(wynik2 == listOf(0, 1)) { "Zła wartość elementu ciągu Fibonacciego" }
+
+   assertFailsWith<IllegalArgumentException> {fibonacciPetla(-1)}
+
+
+}
+/**
+ * Funkcja `main` uruchamia testy funkcji 
+ */
+fun main() {
+    testFibonacciPetla()
+}
