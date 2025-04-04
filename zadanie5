@@ -7,20 +7,20 @@ import kotlin.test.assertFailsWith
  */
 
 fun collatz(liczba: Int): List<Int> {
-    require(liczba > 0) { "Początkowa wartość musi być większa od zera" }
+    require(liczba > 0) { "Pierwsza wartość musi być większa od zera" }
     val lista = mutableListOf<Int>()
     lista.add(liczba)
 
-    var currentNumber = liczba  // Use a separate variable to allow reassignment
-    while (currentNumber != 1) {  
-        if (currentNumber % 2 == 0) {
-            currentNumber = parzyste(currentNumber) 
+    var dana = liczba
+    while (dana != 1) {
+        if (dana % 2 == 0) {
+            dana = parzyste(dana)
         } else {
-            currentNumber = nieparzyste(currentNumber)  
+            dana = nieparzyste(dana)
         }
-        lista.add(currentNumber)  
-    } 
-    return lista  // Return the list as the result
+        lista.add(dana)
+    }
+    return lista
 }
 
 /**
@@ -35,7 +35,7 @@ fun parzyste(n: Int) : Int{
 /**
  * Funkcja nieparzyste dla liczb nieparzystych, która mnoży wprowadzoną liczbę przez 3 i dodaje 1
  * @param n liczba nieparzysta
- * @return nowa liczba pardzysta, wynik mnożenia przez 3 i dodania 1
+ * @return nowa liczba parzysta, wynik mnożenia n przez 3 i dodania 1
  */
 fun nieparzyste(n: Int) : Int{
     return 3 * n + 1
@@ -47,11 +47,11 @@ fun nieparzyste(n: Int) : Int{
  * @return maxE największy element listy
  */
 fun Max(lista: List<Int>): Int {
-    var maxE = lista[0]  
+    var maxE = lista[0]
     lista.forEach { element ->
-        maxE = maxOf(maxE, element)  
+        maxE = maxOf(maxE, element)
     }
-    return maxE 
+    return maxE
 }
 
 /**
@@ -65,40 +65,42 @@ fun dlugosc(lista:  List<Int>): Pair<Int, List<Int>> {
 
     for (i in lista) {
         if (i == 4) {
-            break  // Przerywamy pętlę, gdy znajdziemy 4
+            break
         }
         lip.add(i)
         licznik++
     }
     return Pair(licznik, lip)  // Zwracamy liczbę elementów i listę
 }
+/**
+ * Funkcja testująca działanie funkci
+ */
 
 fun testcollatz() {
     val test1 = collatz(1)
     require(test1 == listOf(1)) { "Zła wartość elementu ciągu Collatza" }
-    
+
     assertFailsWith<IllegalArgumentException> {collatz(0)}
-     
-     
+
     val test3 = collatz(3)
     require(test3 == listOf(3, 10, 5, 16, 8, 4, 2, 1)) {"Nieprawidłowe elementy ciągu Collatza"}
-    
+
     val test4 = parzyste(4)
     require(test4 == 2) { "Nieprawidłowa wartość liczby parzystej"}
-    
+
     val test5 = nieparzyste(3)
     require(test5 == 10) { "Nieprawidłowa wartość liczby nieparzystej"}
-    
+
     val test6 = Max(listOf(-1, -6, 5, 16, 0))
     require(test6 == 16) { "Nieprawidłowa wartość maksymalna ciągu Collatza"}
-    
+
     val test7 = dlugosc(listOf(3, 10, 5, 16, 8, 4, 2, 1))
-    require(test7.second == listOf(3, 10, 5, 16, 8)) { "Nieprawidłowe elementy przd 4, 2, 1" } 
-    
+    require(test7.second == listOf(3, 10, 5, 16, 8)) { "Nieprawidłowe elementy przd 4, 2, 1" }
+
     val test8 = dlugosc(listOf(3, 10, 5, 16, 8, 4, 2, 1))
-    require(test8.first == 5) { "Nieprawidłowa wartość długości ciągu Collatza" } 
+    require(test8.first == 5) { "Nieprawidłowa wartość długości ciągu Collatza" }
 }
 
 fun main() {
-    testcollatz() 
+    testcollatz()
 }
