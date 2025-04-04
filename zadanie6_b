@@ -1,0 +1,52 @@
+/**
+ * Funkcja "transkrybuj" która dla sekwencji nici matrycowej DNA
+ zwraca sekwencję RNA,
+ * @param DNA nić matrycowa DNA.
+ * @param RNA Lista, do której zapisywana jest nić RNA
+ */
+fun transkrybuj(DNA: String, RNA: MutableList<Char>) {
+    for (element in DNA) {
+        when (element) {
+            'A' -> RNA.add('U')  // A na U (komplementarność)
+            'T' -> RNA.add('A')  // T na A (komplementarność)
+            'C' -> RNA.add('G')  // C na G (komplementarność)
+            'G' -> RNA.add('C')  // G na C (komplementarność)
+        }
+    }
+}
+
+/**
+ * Funkcja `testtranskrybuj` testuje funkcję 'transkrybuj'
+ */
+fun testtranskrybuj() {
+    val test1 = mutableListOf<Char>()
+    transkrybuj("AATTCCGG", test1)
+    require(test1.joinToString("") == "UUAAGGCC") { "Błąd: Oczekiwano 'UUAAGGCC', otrzymano '${test1.joinToString("")}'" }
+
+    val test2 = mutableListOf<Char>()
+    transkrybuj("ATCG", test2)
+    require(test2.joinToString("") == "UAGC") { "Błąd: Oczekiwano 'TAGC', otrzymano '${test2.joinToString("")}'" }
+
+    val test3 = mutableListOf<Char>()
+    transkrybuj("", test3)
+    require(test3.isEmpty()) { "Błąd: Oczekiwano pustej nici, otrzymano '${test3.joinToString("")}'" }
+
+    try {
+        val wynik4 = mutableListOf<Char>()
+        transkrybuj("A6XG", wynik4)
+        require(false) { "Wprowadzono błędny znak, inny niż T, A, C, G" }
+    } catch (e: IllegalArgumentException) {
+        println("${e.message}")
+    }
+
+}
+
+fun main() {
+    testtranskrybuj()
+    val DNA = "ATGC"
+    println("DNA matrycowe: $DNA")
+    val RNA = mutableListOf<Char>()
+    transkrybuj(DNA, RNA)
+    val komplementarnaRNA = RNA.joinToString("")
+    println("Nić RNA: $komplementarnaRNA")
+}
