@@ -1,0 +1,55 @@
+/**
+ * Funkcja `komplement` która dla sekwencji nici kodującej DNA
+znajduje i zwraca sekwencję nici matrycowej,
+ * @param DNA nić kodująca DNA.
+ * @param mDNA Lista, do której zapisywana jest nić matrycowa DNA
+ */
+fun komplement(DNA: String, mDNA: MutableList<Char>) {
+    for (element in DNA) {
+        when (element) {
+            'A' -> mDNA.add('T')  // A na T (komplementarność)
+            'T' -> mDNA.add('A')  // T na A (komplementarność)
+            'C' -> mDNA.add('G')  // C na G (komplementarność)
+            'G' -> mDNA.add('C')  // G na C (komplementarność)
+            else -> throw IllegalArgumentException("Niepoprawny znak")
+        }
+    }
+}
+
+/**
+ * Funkcja `testKomplement` testuje funkcję komplement'
+ */
+fun testKomplement() {
+    val test1 = mutableListOf<Char>()
+    komplement("AATTCCGG", test1)
+    require(test1.joinToString("") == "TTAAGGCC") { "Błąd: Oczekiwano 'TTAAGGCC', otrzymano '${test1.joinToString("")}'" }
+
+    val test2 = mutableListOf<Char>()
+    komplement("ATCG", test2)
+    require(test2.joinToString("") == "TAGC") { "Błąd: Oczekiwano 'TAGC', otrzymano '${test2.joinToString("")}'" }
+
+
+    val test3 = mutableListOf<Char>()
+    komplement("", test3)
+    require(test3.isEmpty()) { "Błąd: Oczekiwano pustej nici, otrzymano '${test3.joinToString("")}'" }
+
+    try {
+        val wynik4 = mutableListOf<Char>()
+        komplement("ATXG", wynik4)
+        require(false) { "Wprowadzono błędny znak, inny niż T, A, C, G" }
+    } catch (e: IllegalArgumentException) {
+        println("${e.message}")
+    }
+
+}
+
+fun main() {
+    testKomplement()
+    val DNA = "ATG"
+    println("DNA kodujące: $DNA")
+    val mDNA = mutableListOf<Char>()
+    komplement(DNA, mDNA)
+    val komplementarnyDNA = mDNA.joinToString("")
+    println("Komplementarne DNA: $komplementarnyDNA")
+}
+
