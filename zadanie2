@@ -1,0 +1,67 @@
+/**
+ * Funkcja `wspolne` zwraca część wspólną dwóch multizbiorów x i y.
+ *
+ * @param listax Pierwsza, nie pusta, tablica liczb całkowitych.
+ * @param listay Druga, nie pusta, tablica liczb całkowitych. 
+ * @return Tablica elementów wspólnych dla listax i listay.
+ * @throws IllegalArgumentException wyjątek gdy tablica (listax/listay) jest pusta.
+ */
+fun wspolne(listax: IntArray, listay: IntArray): IntArray {
+    require(listax.isNotEmpty()) { "Pierwsza lista nie może być pusta." }
+    require(listay.isNotEmpty()) { "Druga lista nie może być pusta." }
+
+    val list = mutableListOf<Int>() // Używamy listy, dla dodania wspólnych elementów
+
+    // Podwójna pętla porównująca wartości w lisśie x oraz y dodająca wartość do listy list
+    for (i in listax) {
+        for (a in listay) {
+            if (i == a) {
+                list.add(i) 
+            }
+        }
+    }
+
+    return list.toIntArray() 
+}
+
+/**
+ * Funkcja `testWspolne` testuje funkcje `wspolne`.
+ */
+fun testWspolne() {
+    val listax1 = intArrayOf(1, 2, 3, 4, 5)
+    val listay1 = intArrayOf(3, 4, 5, 6, 7)
+    val wynik1 = wspolne(listax1, listay1)
+    require(wynik1.contentEquals(intArrayOf(3, 4, 5))) { "Część wspólna powinna wynosić [3, 4, 5]" }
+
+     // https://github.com/JetBrains/kotlin/blob/rrr/2.1.0/core-docs/libraries/stdlib/common/src/generated/_Arrays.kt#L6932 Sprawdzanie poprawności za pomocą contentEquals
+
+    val listax2 = intArrayOf(10, 20, 30)
+    val listay2 = intArrayOf(30, 40, 50)
+    val wynik2 = wspolne(listax2, listay2)
+    require(wynik2.contentEquals(intArrayOf(30))) { "Część wspólna powinna wynosić [30]" }
+
+    val listax3 = intArrayOf(1, 2, 3)
+    val listay3 = intArrayOf(4, 5, 6)
+    val wynik3 = wspolne(listax3, listay3)
+    require(wynik3.isEmpty()) { "Część wspólna powinna być pusta" }
+
+    val listax4 = intArrayOf()
+    val listay4 = intArrayOf(1, 2, 3)
+    try {
+        wspolne(listax4, listay4)
+        require(false) { "Wprowadzono pustą tablicę" }
+    } catch (e: IllegalArgumentException) {
+      
+    }
+}
+
+/**
+ * Funkcja `main` uruchamia testy funkcji i zwraca przykładowy wynik w postaci łańcucha znaków.
+ */
+fun main() {
+    testWspolne()
+    val listax11 = intArrayOf(1, 2, 3, 4, 5)
+    val listay12 = intArrayOf(3, 4, 5, 6, 7)
+    val wynik1 = wspolne(listax11, listay12)
+    println(wynik1.joinToString())
+}
