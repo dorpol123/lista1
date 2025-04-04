@@ -1,0 +1,35 @@
+import kotlin.test.assertFailsWith
+/**
+ * Funkcja ciąg Fibonacciego do wyznaczenia pierwszych n elementów przy użyciu pętli.
+ * @param n pożądana liczba zwracanych elementów
+ * @return lista pierwszych n elementów 
+ * @throws IllegalArgumentException Gdy n jest liczbą ujemną
+ */
+fun fibonacciRekurencyjnie(n: Int): List<Int> {
+    require(n >= 0) { "Wprowadź wartość dodatnią" }
+  
+    fun rekurencja(m: Int): Int {
+        return when (m) {
+            0 -> 0
+            1 -> 1
+            else -> rekurencja(m - 1) + rekurencja(m - 2)
+        }
+    }
+    return List(n) { rekurencja(it) }
+}
+
+fun main() {
+    val n1 = 1
+    val wynik1 = fibonacciRekurencyjnie(n1)
+    require(wynik1 == listOf(0)) { "Zła wartość elementu ciągu Fibonacciego dla n = 1" }
+
+    val n2 = 2
+    val wynik2 = fibonacciRekurencyjnie(n2)
+    require(wynik2 == listOf(0, 1)) { "Zła wartość elementu ciągu Fibonacciego dla n = 2" }
+
+    val n3 = 0
+    val wynik3 = fibonacciRekurencyjnie(n3)
+    require(wynik3.isEmpty()) { "Zła wartość elementu ciągu Fibonacciego dla n = 0" }
+
+    assertFailsWith<IllegalArgumentException> {fibonacciRekurencyjnie(-1)}
+}
