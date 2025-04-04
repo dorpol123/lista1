@@ -12,7 +12,7 @@ fun wspolne(listax: IntArray, listay: IntArray): IntArray {
 
     val list = mutableListOf<Int>() // Używamy listy, dla dodania wspólnych elementów
 
-    // Podwójna pętla porównująca wartości w lisśie x oraz y dodająca wartość do listy list
+    // Podwójna pętla porównująca wartości w lista x oraz y dodająca wartość do listy list
     for (i in listax) {
         for (a in listay) {
             if (i == a) {
