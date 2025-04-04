@@ -1,0 +1,36 @@
+import kotlin.math.sqrt
+
+/**
+ * Funkcja heron obliczająca pole trójkąta za pomocą wzoru Herona.
+ *
+ * @param a dodatnia długość pierwszego boku trójkąta
+ * @param b dodatnia długość drugiego boku trójkąta
+ * @param c dodatnia długość trzeciego boku trójkąta
+ * @return pole powierzchni trójkąta ze wzoru Herona
+ * @throws IllegalArgumentException - wyświetlany w przypadku wprowadzenia długości nie spełniających warunków na utworzenie trójkąta
+ */
+
+// wzór herona: https://pl.wikipedia.org/wiki/Wz%C3%B3r_Herona
+fun heron(a: Double, b: Double, c: Double): Double {
+    require(a > 0 && b > 0 && c > 0) { "Wprowadź liczby dodatnie" }
+    require(a + b > c && a + c > b && b + c > a) { "Wprowadzone długości nie spełniają wymogów na utworzenie trójkąta"}
+    val p = (a + b + c) / 2
+    return sqrt(p * (p - a) * (p - b) * (p - c)) // wynik, pole trójkąta
+}
+
+fun main() { 
+
+    val wynik1 = heron(3.0, 4.0, 5.0)
+    require(wynik1 == 6.0) { "Zła wartość" }
+
+ ////https://jeongjaino.tistory.com/47 testowanie z wykorzystaniem runCatching{funkcja}.onFailure
+ 
+    val wynik2 = runCatching { heron(1.0, 1.0, 1.0) }
+    wynik2.onFailure {
+        require(true) { "Wprowadzone długości nie spełniają wymogów na utworzenie trójkąta"}
+    }
+
+    val wynik3 = runCatching { heron(3.0, -4.0, 5.0) }.isFailure
+    require(wynik3) { "Wprowadzono wartości ujemne" }
+}
+
